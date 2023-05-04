@@ -1,5 +1,6 @@
 package practico_1;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 
@@ -39,6 +40,7 @@ public class List<T> implements Iterable<T> {
         return aux.getElement();
     }
 
+
     public int indexOf(T element){
         Node<T> aux = this.first;
         int count = 0;
@@ -52,9 +54,35 @@ public class List<T> implements Iterable<T> {
             return -1;
     }
 
+    private void insertOrd(Comparable<T> c) {
+        if (this.isEmpty()) {
+            this.insertFront((T) c);
+            return;
+        }
+
+        Node<T> aux = this.first;
+
+        if(c.compareTo(this.first.getElement()) < 0){
+            insertFront((T) c);
+            return;
+        }
+
+        while(aux.getNext() != null && c.compareTo(aux.getNext().getElement()) > 0){
+            aux = aux.getNext();
+        }
+
+        Node<T> newNode = new Node<>((T) c);
+        newNode.setNext(aux.getNext());
+        aux.setNext(newNode);
+        this.size++;
+    }
+
     
     public void insertOrd(T element){
-
+        if(element instanceof Comparable)
+            this.insertOrd( (Comparable) element);
+        else
+            this.insertFront(element);
     }
 
 
